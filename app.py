@@ -258,17 +258,15 @@ def calculate_rfm(df_clean):
     from pyspark.sql.window import Window
     from pyspark.sql.functions import ntile
 
-    window = Window.orderBy("Recency")
-    rfm_df = rfm_df.withColumn("R_Quartile",
-                               ntile(4).over(window.rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)))
+   # Definisi Window cukup OrderBy saja
+    window_r = Window.orderBy("Recency")
+    rfm_df = rfm_df.withColumn("R_Quartile", ntile(4).over(window_r))
 
-    window = Window.orderBy("Frequency")
-    rfm_df = rfm_df.withColumn("F_Quartile",
-                               ntile(4).over(window.rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)))
+    window_f = Window.orderBy("Frequency")
+    rfm_df = rfm_df.withColumn("F_Quartile", ntile(4).over(window_f))
 
-    window = Window.orderBy("Monetary")
-    rfm_df = rfm_df.withColumn("M_Quartile",
-                               ntile(4).over(window.rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)))
+    window_m = Window.orderBy("Monetary")
+    rfm_df = rfm_df.withColumn("M_Quartile", ntile(4).over(window_m))
 
     # RFM Score
     rfm_df = rfm_df.withColumn("RFM_Score",
@@ -1237,6 +1235,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
