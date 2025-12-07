@@ -11,6 +11,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 import tempfile
 import os
+if os.environ.get('JAVA_HOME') is None:
+    # Path default untuk Java 17 di Debian/Streamlit Cloud
+    os.environ['JAVA_HOME'] = '/usr/lib/jvm/java-17-openjdk-amd64'
 from datetime import datetime, timedelta
 
 # PySpark Imports
@@ -165,11 +168,12 @@ def init_spark_session():
     try:
         spark = SparkSession.builder \
             .appName("CustomerSegmentationApp") \
-            .config("spark.driver.memory", "4g") \
-            .config("spark.executor.memory", "4g") \
+            .config("spark.driver.memory", "1g") \
+            .config("spark.executor.memory", "1g") \
             .config("spark.sql.execution.arrow.pyspark.enabled", "true") \
-            .config("spark.sql.shuffle.partitions", "100") \
+            .config("spark.sql.shuffle.partitions", "4") \
             .getOrCreate()
+            # Catatan: shuffle.partitions dikurangi jadi 4 biar lebih ringan
 
         spark.sparkContext.setLogLevel("WARN")
         return spark
@@ -1240,11 +1244,5 @@ def main():
 # ====================================================
 
 if __name__ == "__main__":
-    # Set environment variable for Java
-    import os
-
-    os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME', '/usr/lib/jvm/java-17-openjdk-amd64')
-
-    # Run the app
-
     main()
+
