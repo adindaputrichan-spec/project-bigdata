@@ -209,23 +209,15 @@ def preprocess_data(df, spark):
     df_clean = df_clean.filter(col("UnitPrice") > 0)
 
     # 4. Konversi InvoiceDate ke timestamp
-    try:
-        df_clean = df_clean.withColumn(
-            "InvoiceDate",
-            to_timestamp(col("InvoiceDate"), "d/M/yyyy H:mm")
+    # Coba format US (Bulan/Tanggal) dulu, kalau gagal baru format Indo (Tanggal/Bulan)
+    df_clean = df_clean.withColumn(
+        "InvoiceDate",
+        coalesce(
+            to_timestamp(col("InvoiceDate"), "M/d/yyyy H:mm"),
+            to_timestamp(col("InvoiceDate"), "d/M/yyyy H:mm"),
+            to_timestamp(col("InvoiceDate"), "yyyy-MM-dd HH:mm:ss")
         )
-    except:
-        try:
-            df_clean = df_clean.withColumn(
-                "InvoiceDate",
-                to_timestamp(col("InvoiceDate"), "dd/MM/yyyy H:mm")
-            )
-        except:
-            df_clean = df_clean.withColumn(
-                "InvoiceDate",
-                to_timestamp(col("InvoiceDate"))
-            )
-
+    )
     # 5. Hitung TotalAmount
     df_clean = df_clean.withColumn(
         "TotalAmount",
@@ -1245,4 +1237,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
