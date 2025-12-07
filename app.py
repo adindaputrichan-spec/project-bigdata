@@ -666,7 +666,7 @@ def plot_cluster_comparison(predictions_pd):
     ax1.grid(True, alpha=0.3, axis='y')
 
     for i, v in enumerate(cluster_counts.values):
-        ax1.text(i, v + max(cluster_counts.values) * 0.01, str(v), ha='center', fontweight='bold')
+        ax1.text(i, v + np.max(cluster_counts.values) * 0.01, str(v), ha='center', fontweight='bold')
 
     # Average Recency per Cluster
     ax2 = plt.subplot(2, 3, 2)
@@ -1235,6 +1235,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
