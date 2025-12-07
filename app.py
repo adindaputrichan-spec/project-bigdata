@@ -1243,7 +1243,8 @@ if __name__ == "__main__":
     # Set environment variable for Java
     import os
 
-    os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME', '/usr/lib/jvm/java-8-openjdk-amd64')
+    os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME', '/usr/lib/jvm/java-17-openjdk-amd64')
 
     # Run the app
+
     main()
