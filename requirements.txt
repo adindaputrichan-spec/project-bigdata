@@ -1,11 +1,7 @@
 streamlit
+pyspark
 pandas
 numpy
-matplotlib.pyplot 
+matplotlib
 seaborn
-plotly.express
-plotly.graph_objects
-tempfile
-os
-datetime
-timedelta
+plotly
