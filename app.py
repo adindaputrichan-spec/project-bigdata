@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
     col, sum, countDistinct, max, min, avg, datediff,
-    lit, to_timestamp, mean, when, count, round
+    lit, to_timestamp, mean, when, count, round, coalesce
 )
 from pyspark.sql.types import DoubleType, IntegerType, TimestampType
 from pyspark.ml.feature import VectorAssembler, StandardScaler
@@ -1237,5 +1237,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
